@@ -108,18 +108,25 @@ public class MainActivity extends AppCompatActivity {
                     });
         }
     }
+
     private static class FetchAddressTask extends AsyncTask<Location, Void, String> {
         private final String TAG = FetchAddressTask.class.getSimpleName();
         private Context mContext;
+        private OnTaskCompleted mListener;
 
         FetchAddressTask(Context applicationContext) {
             mContext = applicationContext;
         }
 
+        FetchAddressTask(Context applicationContext, OnTaskCompleted listener) {
+            mContext = applicationContext;
+            mListener = listener;
+        }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+        protected void onPostExecute(String address) {
+            mListener.onTaskCompleted(address);
+            super.onPostExecute(address);
         }
 
         @Override
